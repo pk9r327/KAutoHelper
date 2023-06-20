@@ -1,0 +1,122 @@
+﻿<Page
+    x:Class="KAutoHelperDemo.Views.MousePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:KAutoHelperDemo.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="ContentArea">
+        <ScrollViewer>
+            <StackPanel>
+                <controls:ControlExample
+                    AllowDrop="True"
+                    DragOver="ControlExample_DragOver"
+                    HeaderText="Mouse click on a position (real click)">
+                    <controls:ControlExample.Example>
+                        <StackPanel>
+                            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                <NumberBox
+                                    Width="100"
+                                    Margin="5"
+                                    Header="X"
+                                    Value="{x:Bind MouseClickExampleViewModel.ClickX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <NumberBox
+                                    Width="100"
+                                    Margin="5"
+                                    Header="Y"
+                                    Value="{x:Bind MouseClickExampleViewModel.ClickY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <ComboBox
+                                    xmlns:kah="using:KAutoHelper"
+                                    xmlns:ui="using:CommunityToolkit.WinUI.UI"
+                                    Width="150"
+                                    Margin="5"
+                                    Header="EMouseKey"
+                                    ItemsSource="{ui:EnumValues Type=kah:EMouseKey}"
+                                    SelectedItem="{x:Bind MouseClickExampleViewModel.MouseKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <Button
+                                    Width="100"
+                                    Margin="5"
+                                    VerticalAlignment="Stretch"
+                                    Command="{x:Bind MouseClickExampleViewModel.ClickCommand}"
+                                    Content="Click" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon
+                                    CanDrag="True"
+                                    DropCompleted="FontIcon_DropCompleted"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    Glyph="&#xe759;" />
+                                <TextBlock Margin="5">
+                                    <Italic>
+                                        Drag to a position to set X, Y
+                                    </Italic>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </controls:ControlExample.Example>
+                    <controls:ControlExample.Output>
+                        <Grid>
+                            <Button
+                                x:Name="ClickMeButton"
+                                Width="100"
+                                Margin="5"
+                                Command="{x:Bind ClickMeOutputViewModel.ClickCommand}"
+                                Content="{x:Bind ClickMeOutputViewModel.ClickMeText, Mode=OneWay}" />
+                        </Grid>
+                    </controls:ControlExample.Output>
+                    <controls:ControlExample.Xaml>
+                        <x:String xml:space="preserve">&lt;StackPanel Orientation="Horizontal"&gt;
+    &lt;NumberBox Margin="5" Header="X" 
+        Value="{x:Bind MouseClickExampleViewModel.ClickX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" /&gt;
+    &lt;NumberBox Margin="5" Header="Y" 
+        Value="{x:Bind MouseClickExampleViewModel.ClickY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" /&gt;
+    &lt;ComboBox
+        xmlns:kah="using:KAutoHelper"
+        xmlns:ui="using:CommunityToolkit.WinUI.UI"
+        Width="150"
+        Margin="5"
+        Header="EMouseKey"
+        ItemsSource="{ui:EnumValues Type=kah:EMouseKey}" 
+        SelectedItem="{x:Bind MouseClickExampleViewModel.MouseKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" /&gt;
+    &lt;Button
+        Width="100"
+        Margin="5"
+        VerticalAlignment="Stretch"
+        Command="{x:Bind MouseClickExampleViewModel.ClickCommand}"
+        Content="Click" /&gt;
+&lt;/StackPanel&gt;
+                </x:String>
+                    </controls:ControlExample.Xaml>
+                    <controls:ControlExample.CSharp>
+                        <x:String xml:space="preserve">
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+                    
+namespace KAutoHelperDemo.ViewModels.Examples;
+public partial class MouseClickExampleViewModel : ObservableObject
+{
+    [ObservableProperty]
+    private int clickX = 0;
+
+    [ObservableProperty]
+    private int clickY = 0;
+
+    [ObservableProperty]
+    private KAutoHelper.EMouseKey mouseKey = KAutoHelper.EMouseKey.LEFT;
+
+    [RelayCommand]
+    private void Click()
+    {
+        KAutoHelper.AutoControl.MouseClick(ClickX, ClickY, MouseKey);
+    }
+}
+                </x:String>
+                    </controls:ControlExample.CSharp>
+                </controls:ControlExample>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

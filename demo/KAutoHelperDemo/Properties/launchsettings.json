@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "KAutoHelperDemo (Unpackaged)": {
+        "commandName": "Project"
+      },
+      "KAutoHelperDemo (Package)": {
+        "commandName": "MsixPackage"
+      }
+    }
+}

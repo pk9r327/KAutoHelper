@@ -13,6 +13,18 @@ namespace KAutoHelper
     public class AutoControl
     {
         #region win API import
+        [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetCursorPos(int x, int y);
+
+        /// <summary>
+        /// Retrieves the cursor's position, in screen coordinates.
+        /// </summary>
+        /// <see>See MSDN documentation for further information.</see>
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(out POINT lpPoint);
+
+
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
@@ -1172,8 +1184,9 @@ namespace KAutoHelper
         /// <param name="mouseKey"></param>
         public static void MouseClick(int x, int y, EMouseKey mouseKey = EMouseKey.LEFT)
         {
-            Cursor.Position = new System.Drawing.Point(x,y);
+            //Cursor.Position = new System.Drawing.Point(x,y);
 
+            SetCursorPos(x, y);
             Click(mouseKey);
         }        
 
